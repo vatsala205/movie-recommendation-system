@@ -1,10 +1,16 @@
-from movie_rag import load_movie_csv, embed_texts, build_faiss_index, get_top_movie_data
+from movie_rag import build_faiss_index
+import pickle
 
-file_path = "top_movies.csv"
-texts, df = load_movie_csv(file_path)
-embeddings = embed_texts(texts)
+# Load precomputed data
+with open("texts.pkl", "rb") as f:
+    texts = pickle.load(f)
+
+with open("embeddings.pkl", "rb") as f:
+    embeddings = pickle.load(f)
+
 index = build_faiss_index(embeddings)
 
+# GENRE and MOOD logic (unchanged)
 GENRES = {
     "action", "drama", "thriller", "romance", "comedy",
     "sci-fi", "horror", "crime", "adventure", "mystery",
@@ -20,13 +26,13 @@ MOOD_MAP = {
     "funny": ["comedy", "humor", "satire"]
 }
 
+from movie_rag import get_top_movie_data  # moved here to avoid cyclic imports
+
 def extract_requested_fields(user_input, top_results):
     user_input_lower = user_input.lower()
 
-    # Genre match
     requested_genres = [genre for genre in GENRES if genre in user_input_lower]
 
-    # Mood match
     requested_moods = [mood for mood in MOOD_MAP if mood in user_input_lower]
     mood_keywords = []
     for mood in requested_moods:
@@ -47,5 +53,3 @@ def extract_requested_fields(user_input, top_results):
         ]
 
     return filtered if filtered else top_results
-
-

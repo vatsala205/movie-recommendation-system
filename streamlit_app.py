@@ -1,5 +1,18 @@
 import streamlit as st
-from main import get_top_movie_data, texts, embeddings, index, extract_requested_fields
+import faiss
+import pickle
+from movie_rag import get_top_movie_data
+from main import extract_requested_fields
+
+def load_data():
+    with open("texts.pkl", "rb") as f:
+        texts = pickle.load(f)
+    with open("embeddings.pkl", "rb") as f:
+        embeddings = pickle.load(f)
+    index = faiss.read_index("movie_index.faiss")  # Requires saved index file
+    return texts, embeddings, index
+
+texts, embeddings, index = load_data()
 
 st.title("🎥 Movie Recommender Chatbot")
 
