@@ -79,8 +79,7 @@ Then open your browser at `http://localhost:8501`.
 * [ ] User ratings and feedback loop
 * [ ] Use multilingual embeddings for broader access
 
-## 📌 License
-
-This project is licensed under the MIT License. Feel free to use and modify it for your own applications!
-]
+note for self: 
+un comment main.py and run alone to create .pkl and .faiss files
+then "streamlit run streamlit_app.py" 
 

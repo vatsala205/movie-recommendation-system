@@ -38,7 +38,6 @@ def extract_requested_fields(user_input, top_results):
     return filtered if filtered else top_results
 
 
-# 💡 Only runs if you execute this file directly
 # if __name__ == "__main__":
 #     from movie_rag import load_movie_csv, embed_texts
 #
